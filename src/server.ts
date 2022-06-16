@@ -33,6 +33,7 @@ import path from 'path';
   //! END @TODO1
   app.get("/filteredimage/",async (req:Request, res:Response) => {
     const { image_url } = req.query;
+    //checking the format of the query received for debugging
     console.log(req.query);
     if (!image_url){
       res.status(400).send("Image URL query required")
