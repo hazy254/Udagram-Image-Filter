@@ -44,21 +44,24 @@ import path from 'path';
       }
       catch{
         res.status(422).send("Invalid Image URL.The server cannot process the image URL provided")
-      }
+      } 
       finally{
-        const folderPath = __dirname + "/util/tmp/";
+        // Timeout function set to 15 seconds after response is sent
+        const deleteTimeout = setTimeout(deleteTempFiles, 15000);
+      } 
+    }
+
+  })
+  //Timeout function to delete all files in the tmp directory
+  function deleteTempFiles(){
+    const folderPath = __dirname + "/util/tmp/";
         //created an array to get the paths to all the files created by the server
         const tmpArray = 
           fs.readdirSync(folderPath).map(fileName => {
             return path.join(folderPath, fileName);
           });
         deleteLocalFiles(tmpArray);
-      }
-
-      
-    }
-
-  })
+  }
   // Root Endpoint
   // Displays a simple message to the user
   app.get( "/", async ( req: Request, res: Response ) => {
